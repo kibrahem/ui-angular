@@ -1,0 +1,78 @@
+
+
+  changeLanguage(): void {
+    this.i18n.setLocale(this.isEnglish ? ar_EG : en_US);
+    this.isEnglish = !this.isEnglish;
+  }
+  changeDir(dir:string){
+    document.getElementsByTagName("html")[0].setAttribute("dir",dir);
+    if(dir=="rtl"){
+      this.i18n.setLocale(ar_EG);
+
+    }else{
+      this.i18n.setLocale(en_US);
+
+    }
+
+  }
+  constructor(private i18n: NzI18nService) {
+    if(localStorage.getItem("dir")==="ltr"){
+      this.changeDir("ltr")
+    }else{
+      this.changeDir("rtl")
+    }
+  }
+import { en_US, NzI18nService, ar_EG } from 'ng-zorro-antd/i18n';
+import { en_US, NzI18nService, ar_EG } from 'ng-zorro-antd/i18n';
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { registerLocaleData } from '@angular/common';
+import ar from '@angular/common/locales/ar';
+import en from '@angular/common/locales/en';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { ar_EG ,en_US } from 'ng-zorro-antd/i18n';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+function language(){
+  if(localStorage.getItem("lang")=="ar"){
+   return registerLocaleData(ar);
+
+  }else{
+    return  registerLocaleData(en);
+
+  }
+
+}
+language();
+export const lang=localStorage.getItem("lang")=="en"?en_US:ar_EG;
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NzDatePickerModule,
+    NzTimePickerModule,
+    NzPaginationModule,
+    NzUploadModule,
+    NzSelectModule
+  ],
+  providers: [{ provide: NZ_I18N, useValue: lang }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
